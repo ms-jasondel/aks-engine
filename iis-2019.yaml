@@ -24,8 +24,12 @@ spec:
             memory: 300m
         ports:
           - containerPort: 80
-      nodeSelector:
+      nodeSelector:   # selects only a windows node
         "beta.kubernetes.io/os": windows
+      tolerations:    # required because the windows node is tainted such that non-windows containers don't get scheduled 
+      - key: beta.kubernetes.io/os
+        operator: Equal
+        value: "windows"
   selector:
     matchLabels:
       app: iis-2019
